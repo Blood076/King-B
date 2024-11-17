@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gradio RPG</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradio Web Component</title>
 </head>
 <body>
-    <h1>Phantom Legends - Demonstração</h1>
-    <p>Confira abaixo a demonstração do projeto:</p>
-    <iframe
-        src="https://blood076-rpg.hf.space" 
-        frameborder="0"
-        width="850"
-        height="450"
-    ></iframe>
+  <!-- Carregando o script do Gradio -->
+  <script
+    type="module"
+    src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"
+  ></script>
+
+  <!-- Incluindo o Web Component -->
+  <gradio-app src="https://blood076-rpg-b.hf.space"></gradio-app>
 </body>
 </html>
