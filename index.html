@@ -1,71 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>King B</title>
-    <style>
-        /* Estilo global da página */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0f0f11;
-        }
-
-        /* Contêiner para centralizar o conteúdo */
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 900px;
-        }
-
-        /* Estilo do título */
-        h1 {
-            margin-bottom: 20px;
-            font-size: 2rem;
-            color: #fff;
-        }
-
-        /* Customização do Web Component gradio-app */
-        gradio-app {
-            width: 100%;
-            height: 600px; /* Altura do componente */
-            max-width: 850px; /* Largura máxima */
-            border-radius: 12px; /* Bordas arredondadas */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-            overflow: hidden;
-        }
-
-        /* Customização de bordas e margens externas para o gradio-app */
-        .container {
-            padding: 20px;
-            background-color: #272727;
-            border-radius: 8px; /* Bordas arredondadas do contêiner */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.99); /* Sombra mais forte ao redor do contêiner */
-        }
-
-        /* Adicionando uma borda e padding ao redor do iframe (caso utilize iframe) */
-        iframe {
-            width: 100%;
-            height: 1200px;
-            border: 1px solid #ccc; /* Borda sutil */
-            border-radius: 8px; /* Bordas arredondadas */
-        }
-
-    </style>
+    <title>Gradio RPG</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Play!!!</h1>
-        <!-- Web Component para carregar o Space -->
-        <gradio-app src="https://blood076-king-b.hf.space"></gradio-app>
-    </div>
-
-    <!-- Script necessário para carregar o Web Component -->
-    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
+    <h1>Phantom Legends - Demonstração</h1>
+    <p>Confira abaixo a demonstração do projeto:</p>
+    <iframe
+        src="https://blood076-rpg.hf.space" 
+        frameborder="0"
+        width="850"
+        height="450"
+    ></iframe>
 </body>
 </html>
