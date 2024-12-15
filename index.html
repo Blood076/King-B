@@ -1,18 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gradio Web Component</title>
+<title>Chatbot com Gemini API</title>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.container {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.chat-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.chat-messages {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.user-message {
+  background-color: #eee;
+  text-align: right;
+}
+
+.bot-message {
+  background-color: #ccf;
+}
+
+.message-text {
+  font-size: 16px;
+  margin: 0;
+}
+
+.message-sender {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+.chat-input {
+  display: flex;
+  margin-top: 20px;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
 </head>
 <body>
-  <!-- Carregando o script do Gradio -->
-  <script
-    type="module"
-    src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"
-  ></script>
+<div class="container">
+  <div class="chat-header">
+    <h1>Chatbot com Gemini API</h1>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input">
+    <input type="text" id="message-input" placeholder="Digite sua mensagem">
+    <button id="send-button">Enviar</button>
+  </div>
+</div>
 
-  <!-- Incluindo o Web Component -->
-  <gradio-app src="https://blood076-rpg-b.hf.space"></gradio-app>
+<script>
+// Substitua pelo seu API key real
+const apiKey = "AIzaSyAMOjRDnRmCmquTBQFUErr0KZLHNVU52Os"; 
+
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(apiKey);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-exp-1206",
+});
+
+const generationConfig = {
+  temperature: 1.2,
+  topP: 1.00,
+  topK: 40,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
+
+const chatSession = model.startChat({
+  generationConfig,
+  history: [],
+});
+
+const chatMessages = document.getElementById("chat-messages");
+const messageInput = document.getElementById("message-input");
+const sendButton = document.getElementById("send-button");
+
+function addMessageToChat(message, sender) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+  messageElement.classList.add(sender === "user" ? "user-message" : "bot-message");
+
+  const messageText = document.createElement("p");
+  messageText.classList.add("message-text");
+  messageText.textContent = message;
+
+  const messageSender = document.createElement("p");
+  messageSender.classList.add("message-sender");
+  messageSender.textContent = sender === "user" ? "Você" : "Chatbot";
+
+  messageElement.appendChild(messageText);
+  messageElement.appendChild(messageSender);
+  chatMessages.appendChild(messageElement);
+
+  // Rolagem automática para a última mensagem
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function sendMessageToChatbot(message) {
+  addMessageToChat(message, "user");
+
+  try {
+    const result = await chatSession.sendMessage(message);
+    const response = result.response.text();
+    addMessageToChat(response, "bot");
+  } catch (error) {
+    console.error("Erro ao enviar mensagem:", error);
+    addMessageToChat("Desculpe, houve um erro ao processar sua mensagem.", "bot");
+  }
+
+  messageInput.value = "";
+}
+
+sendButton.addEventListener("click", () => {
+  const message = messageInput.value;
+  if (message.trim() !== "") {
+    sendMessageToChatbot(message);
+  }
+});
+
+messageInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    const message = messageInput.value;
+    if (message.trim() !== "") {
+      sendMessageToChatbot(message);
+    }
+  }
+});
+</script>
 </body>
 </html>
