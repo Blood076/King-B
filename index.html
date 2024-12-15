@@ -94,7 +94,7 @@ body {
 <body>
 <div class="container">
   <div class="chat-header">
-    <h1>Chatbot com Gemini API</h1>
+    <h1>Fizze</h1>
   </div>
   <div class="chat-messages" id="chat-messages"></div>
   <div class="chat-input">
@@ -116,7 +116,7 @@ const {
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-exp-1206",
+  model: "tunedModels/fizze-fsojvq99pdzd",
 });
 
 const generationConfig = {
